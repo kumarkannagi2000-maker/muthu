@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Jenny Wilson Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0a0a0a;--bone:#f5f0e8;--gold:#c9a84c;--muted:#8a8070;--warm:#2a2520;--mid:#1a1714}
+body{background:var(--ink);color:var(--bone);font-family:'Cormorant Garamond',serif;font-weight:300;font-size:18px;line-height:1.7;cursor:none;overflow-x:hidden}
+.cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(201,168,76,.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .25s}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.15)}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--bone);text-decoration:none}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--bone)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-cta{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:10px 24px;text-decoration:none;transition:all .3s}
+.nav-cta:hover{background:var(--gold);color:var(--ink)}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer}
+.hbg span{width:24px;height:1px;background:var(--bone)}
+.ph{padding:160px 60px 80px;background:var(--mid)}
+.ph-crumb{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;display:flex;gap:12px}
+.ph-crumb span{color:var(--gold)}
+.ph-inner{display:flex;justify-content:space-between;align-items:flex-end}
+.ph-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,6vw,6rem);font-weight:400;line-height:1.05}
+.ph-title em{font-style:italic;color:var(--gold)}
+.ph-count{font-family:'Playfair Display',serif;font-size:5rem;color:rgba(201,168,76,.15)}
+
+/* Filter bar */
+.filter-bar{padding:40px 60px;background:var(--ink);display:flex;gap:4px;align-items:center;border-bottom:1px solid rgba(201,168,76,.1)}
+.filter-bar .lbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-right:20px}
+.fb{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid transparent;padding:8px 20px;cursor:pointer;transition:all .3s}
+.fb.a,.fb:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Gallery grid */
+.g-main{padding:60px;background:var(--ink)}
+.g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gi{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3}
+.gi.tall{aspect-ratio:3/4}
+.gi.wide{grid-column:span 2}
+.gi img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%) contrast(1.05);transition:all .6s;display:block;background:#1a1714}
+.go{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.9) 0%,transparent 50%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:28px}
+.gi:hover .go{opacity:1}
+.gi:hover img{transform:scale(1.06);filter:grayscale(0%) contrast(1.1)}
+.gc{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--bone);transform:translateY(10px);transition:transform .4s}
+.gi:hover .gc{transform:translateY(0)}
+.gm{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:6px;transform:translateY(10px);transition:transform .4s .05s}
+.gi:hover .gm{transform:translateY(0)}
+.gic{position:absolute;top:20px;right:20px;width:44px;height:44px;border:1px solid rgba(201,168,76,.6);display:flex;align-items:center;justify-content:center;color:var(--gold);opacity:0;transform:scale(.8);transition:all .4s}
+.gi:hover .gic{opacity:1;transform:scale(1)}
+
+/* CTA */
+.g-cta{padding:100px 60px;background:var(--warm);text-align:center}
+.g-cta .ttl{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:400;line-height:1.1;margin:24px 0 20px}
+.g-cta .ttl em{font-style:italic;color:var(--gold)}
+.g-cta .sub{font-size:1.1rem;color:var(--muted);max-width:480px;margin:0 auto 48px}
+.btn{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;padding:16px 36px;text-decoration:none;transition:all .3s;border:1px solid var(--gold);display:inline-block}
+.btn:hover{background:transparent;color:var(--gold)}
+.sl-lbl{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:16px;margin-bottom:24px;justify-content:center}
+.sl-lbl::before{content:'';width:32px;height:1px;background:var(--gold)}
+
+footer{padding:60px;background:var(--mid);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,.1)}
+.f-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--bone)}
+.f-logo span{color:var(--gold)}
+.f-copy{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.f-soc{display:flex;gap:16px}
+.f-soc a{width:38px;height:38px;border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-family:'DM Mono',monospace;font-size:.8rem;transition:all .3s}
+.f-soc a:hover{border-color:var(--gold);color:var(--gold)}
+.fu{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.fu.v{opacity:1;transform:translateY(0)}
+.mob-nav{display:none;position:fixed;inset:0;background:var(--ink);z-index:99;flex-direction:column;justify-content:center;align-items:center;gap:40px}
+.mob-nav.open{display:flex}
+.mob-nav a{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--bone);text-decoration:none}
+.mob-nav a:hover{color:var(--gold)}
+.mob-close{position:absolute;top:28px;right:60px;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer}
+@media(max-width:1100px){.g-grid{grid-template-columns:repeat(2,1fr)}.gi.wide{grid-column:span 1}}
+@media(max-width:768px){nav{padding:24px}.nav-links,.nav-cta{display:none}.hbg{display:flex}.ph,.g-main,.g-cta{padding:80px 24px}.filter-bar{padding:24px}.ph-inner{flex-direction:column;gap:12px}.g-grid{grid-template-columns:1fr}.gi.wide,.gi.tall{grid-column:span 1;aspect-ratio:4/3}footer{flex-direction:column;gap:24px;padding:40px 24px;text-align:center}}
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cur"></div><div class="cursor-ring" id="ring"></div>
+  <div class="mob-nav" id="mob"><button class="mob-close" onclick="tn()">✕</button><a href="index.html" onclick="tn()">Home</a><a href="gallery.html" onclick="tn()">Gallery</a><a href="about.html" onclick="tn()">About</a><a href="services.html" onclick="tn()">Services</a><a href="contact.html" onclick="tn()">Contact</a></div>
+  <nav><a href="index.html" class="logo">Jenny<span>.</span>Wilson</a><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="gallery.html" class="active">Gallery</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li></ul><a href="contact.html" class="nav-cta">Hire Me</a><button class="hbg" onclick="tn()"><span></span><span></span><span></span></button></nav>
+
+  <div class="ph">
+    <div class="ph-crumb">Home <span>/ Gallery</span></div>
+    <div class="ph-inner">
+      <h1 class="ph-title">Selected<br><em>Works</em></h1>
+      <div class="ph-count">08</div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="lbl">Filter:</span>
+    <button class="fb a" onclick="filt('all',this)">All</button>
+    <button class="fb" onclick="filt('nature',this)">Nature</button>
+    <button class="fb" onclick="filt('portrait',this)">People</button>
+    <button class="fb" onclick="filt('architecture',this)">Architecture</button>
+    <button class="fb" onclick="filt('sports',this)">Sports</button>
+    <button class="fb" onclick="filt('travel',this)">Travel</button>
+  </div>
+
+  <section class="g-main">
+    <div class="g-grid" id="gallery">
+      <div class="gi fu wide" data-cat="portrait"><img src="assets/img/gallery/gallery-1.jpg" alt="Portraits"><div class="go"><div class="gic">↗</div><div class="gc">Golden Hour Portraits</div><div class="gm">Portrait · NYC · 2024</div></div></div>
+      <div class="gi fu tall" data-cat="nature"><img src="assets/img/gallery/gallery-2.jpg" alt="Nature"><div class="go"><div class="gic">↗</div><div class="gc">Morning Mist</div><div class="gm">Nature · Upstate · 2024</div></div></div>
+      <div class="gi fu" data-cat="architecture"><img src="assets/img/gallery/gallery-3.jpg" alt="Architecture"><div class="go"><div class="gic">↗</div><div class="gc">Steel & Glass</div><div class="gm">Architecture · Manhattan · 2023</div></div></div>
+      <div class="gi fu" data-cat="nature"><img src="assets/img/gallery/gallery-4.jpg" alt="Animals"><div class="go"><div class="gic">↗</div><div class="gc">Wildlife Series</div><div class="gm">Nature · Yellowstone · 2023</div></div></div>
+      <div class="gi fu" data-cat="sports"><img src="assets/img/gallery/gallery-5.jpg" alt="Sports"><div class="go"><div class="gic">↗</div><div class="gc">Peak Performance</div><div class="gm">Sports · Madison Sq · 2024</div></div></div>
+      <div class="gi fu wide" data-cat="travel"><img src="assets/img/gallery/gallery-6.jpg" alt="Travel"><div class="go"><div class="gic">↗</div><div class="gc">Wanderlust — Kyoto</div><div class="gm">Travel · Japan · 2024</div></div></div>
+      <div class="gi fu tall" data-cat="portrait"><img src="assets/img/gallery/gallery-7.jpg" alt="Portrait"><div class="go"><div class="gic">↗</div><div class="gc">Studio Series</div><div class="gm">Portrait · Brooklyn · 2023</div></div></div>
+      <div class="gi fu" data-cat="travel"><img src="assets/img/gallery/gallery-8-2.jpg" alt="Travel"><div class="go"><div class="gic">↗</div><div class="gc">Marrakesh at Dawn</div><div class="gm">Travel · Morocco · 2024</div></div></div>
+    </div>
+  </section>
+
+  <div class="g-cta">
+    <div class="sl-lbl">Commission a Project</div>
+    <h2 class="ttl">Let Me Create<br>Something for <em>You</em></h2>
+    <p class="sub">Have a project in mind? From editorial campaigns to intimate portraits — let's make something extraordinary together.</p>
+    <a href="contact.html" class="btn">Get In Touch</a>
+  </div>
+
+  <footer><div class="f-logo">Jenny<span>.</span>Wilson</div><div class="f-copy">© 2025 Jenny Wilson Photography · All rights reserved</div><div class="f-soc"><a href="#">In</a><a href="#">Tw</a><a href="#">Li</a></div></footer>
+  <script>
+    const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+    (function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a)})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2)'});el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)'})});
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')}),{threshold:.1,rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+    function filt(cat,btn){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('a'));btn.classList.add('a');document.querySelectorAll('.gi').forEach(gi=>{if(cat==='all'||gi.dataset.cat===cat){gi.style.display='block'}else{gi.style.display='none'}})}
+    function tn(){document.getElementById('mob').classList.toggle('open')}
+  </script>
+</body>
+</html>
