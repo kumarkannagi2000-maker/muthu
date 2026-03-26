@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Gallery — Muthukumaran Photography</title>
+  <meta name="description" content="Full gallery — portraits, landscapes, corporate events, street photography and couple shoots by Muthukumaran.">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0a0a0a; --ash: #111111; --smoke: #1a1a1a;
+      --silver: #888888; --pearl: #cccccc; --ivory: #f0ede8;
+      --gold: #c9a96e; --gold-light: #e8c98a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--ivory); font-family: 'Outfit', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+
+    /* CURSOR */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(201,169,110,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.15s ease; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; background: rgba(10,10,10,0.98); border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.15em; color: var(--ivory); text-decoration: none; }
+    .logo span { color: var(--gold); }
+    nav { display: flex; gap: 40px; }
+    nav a { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pearl); text-decoration: none; position: relative; transition: color 0.3s; }
+    nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+    nav a:hover, nav a.active { color: var(--gold); }
+    nav a:hover::after, nav a.active::after { width: 100%; }
+    .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold) !important; padding: 8px 24px; font-size: 0.68rem !important; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s !important; }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--ink) !important; }
+    .nav-cta::after { display: none !important; }
+    .menu-toggle { display: none; background: none; border: none; color: var(--ivory); font-size: 1.4rem; cursor: pointer; }
+
+    /* MOBILE MENU */
+    .mob-menu { display: none; position: fixed; inset: 0; background: rgba(10,10,10,0.98); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mob-menu.open { display: flex; }
+    .mob-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: var(--ivory); text-decoration: none; transition: color 0.3s; }
+    .mob-menu a:hover { color: var(--gold); }
+    .mob-close { position: absolute; top: 28px; right: 28px; background: none; border: none; color: var(--silver); font-size: 1.6rem; cursor: pointer; transition: color 0.3s; }
+    .mob-close:hover { color: var(--gold); }
+
+    /* PAGE HERO */
+    .page-hero { padding: 160px 60px 80px; background: var(--ash); border-bottom: 1px solid rgba(201,169,110,0.1); }
+    .breadcrumb { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--silver); margin-bottom: 32px; display: flex; gap: 10px; align-items: center; }
+    .breadcrumb a { color: var(--silver); text-decoration: none; transition: color 0.3s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb .sep { color: var(--gold); }
+    .page-hero-inner { display: flex; justify-content: space-between; align-items: flex-end; }
+    .page-hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem,6vw,6rem); font-weight: 300; line-height: 1.05; }
+    .page-hero-title em { font-style: italic; color: var(--gold); }
+    .page-hero-count { font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300; color: rgba(201,169,110,0.12); line-height: 1; }
+
+    /* SECTION HEADER */
+    .section-header { padding: 80px 60px 50px; display: flex; align-items: flex-end; justify-content: space-between; }
+    .section-tag { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,4vw,3.5rem); font-weight: 300; line-height: 1.1; }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* FILTER BAR */
+    .cat-filter-bar { display: flex; justify-content: center; gap: 12px; padding: 0 60px 48px; flex-wrap: wrap; }
+    .cat-filter-btn { background: transparent; border: 1px solid rgba(201,169,110,0.35); color: var(--silver); font-family: 'Outfit', sans-serif; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 10px 28px; cursor: pointer; transition: all 0.3s; }
+    .cat-filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .cat-filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+    /* CATEGORY CARDS GRID — 5 columns */
+    .cat-grid { padding: 0 60px 100px; display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; }
+    .cat-card { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; background: var(--smoke); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .cat-card-img { position: absolute; inset: 0; }
+    .cat-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s; filter: brightness(0.55) saturate(0.7); }
+    .cat-card:hover .cat-card-img img { transform: scale(1.08); filter: brightness(0.35) saturate(0.5); }
+    .cat-card-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; z-index: 2; }
+    .cat-card-icon { width: 54px; height: 54px; border: 1px solid rgba(201,169,110,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1.3rem; margin-bottom: 16px; transition: all 0.4s; background: rgba(201,169,110,0.08); }
+    .cat-card:hover .cat-card-icon { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: scale(1.1); }
+    .cat-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 300; color: var(--ivory); margin-bottom: 6px; line-height: 1.2; }
+    .cat-card-count { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .cat-card-btn { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pearl); display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(10px); transition: all 0.4s; border-bottom: 1px solid rgba(201,169,110,0.4); padding-bottom: 4px; }
+    .cat-card:hover .cat-card-btn { opacity: 1; transform: translateY(0); color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ALBUM MODAL */
+    .album-modal { position: fixed; inset: 0; z-index: 5000; background: rgba(10,10,10,0.97); opacity: 0; pointer-events: none; transition: opacity 0.4s; overflow-y: auto; }
+    .album-modal.open { opacity: 1; pointer-events: all; }
+    .album-modal-inner { max-width: 1300px; margin: 0 auto; padding: 60px 40px 80px; }
+    .album-modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .album-modal-tag { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .album-modal-tag::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .album-modal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,4vw,3.5rem); font-weight: 300; color: var(--ivory); }
+    .album-modal-title em { font-style: italic; color: var(--gold); }
+    .album-close { background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--silver); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.3s; flex-shrink: 0; }
+    .album-close:hover { border-color: var(--gold); color: var(--gold); }
+    .album-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+    .album-photo { position: relative; overflow: hidden; aspect-ratio: 4/3; background: var(--smoke); cursor: pointer; }
+    .album-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s; filter: brightness(0.9) saturate(0.85); }
+    .album-photo:hover img { transform: scale(1.06); filter: brightness(1) saturate(1); }
+    .album-photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top,rgba(10,10,10,0.7) 0%,transparent 60%); opacity: 0; transition: opacity 0.4s; display: flex; align-items: flex-end; padding: 18px; }
+    .album-photo:hover .album-photo-overlay { opacity: 1; }
+    .album-photo-expand { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+    .album-photo-expand:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .album-empty { grid-column: 1/-1; text-align: center; padding: 80px 0; color: var(--silver); }
+    .album-empty i { font-size: 3rem; color: var(--gold); opacity: 0.3; display: block; margin-bottom: 16px; }
+    .album-empty p { font-size: 0.85rem; letter-spacing: 0.1em; }
+
+    /* CTA STRIP */
+    .cta-strip { background: var(--ash); padding: 100px 60px; text-align: center; border-top: 1px solid rgba(201,169,110,0.1); }
+    .cta-eyebrow { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 16px; justify-content: center; margin-bottom: 24px; }
+    .cta-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+    .cta-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-sub { font-size: 1rem; color: var(--silver); max-width: 480px; margin: 0 auto 48px; line-height: 1.8; }
+    .btn-gold { background: var(--gold); color: var(--ink); padding: 14px 36px; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; font-weight: 500; transition: all 0.3s; display: inline-block; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer { background: var(--ash); border-top: 1px solid rgba(201,169,110,0.15); padding: 48px 60px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; letter-spacing: 0.1em; color: var(--ivory); }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy { font-size: 0.68rem; color: var(--silver); letter-spacing: 0.1em; text-align: center; }
+    .footer-socials { display: flex; gap: 16px; justify-content: flex-end; }
+    .footer-socials a { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--silver); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+    .footer-socials a:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) { .cat-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 900px) {
+      nav { display: none; } .menu-toggle { display: block; }
+      .cat-grid { grid-template-columns: repeat(2,1fr); padding: 0 20px 60px; }
+      .cat-filter-bar { padding: 0 20px 36px; gap: 8px; }
+      .cat-filter-btn { padding: 8px 16px; font-size: 0.6rem; }
+      .page-hero { padding: 120px 24px 60px; }
+      .page-hero-inner { flex-direction: column; gap: 12px; }
+      .page-hero-count { display: none; }
+      .section-header { padding: 60px 24px 36px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .album-modal-inner { padding: 40px 20px 60px; }
+      .album-grid { grid-template-columns: repeat(2,1fr); }
+      footer { grid-template-columns: 1fr; text-align: center; padding: 36px 24px; }
+      .footer-socials { justify-content: center; }
+      .cta-strip { padding: 80px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Menu -->
+  <div class="mob-menu" id="mobMenu">
+    <button class="mob-close" onclick="document.getElementById('mobMenu').classList.remove('open')">✕</button>
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo">Muthu<span>.</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#contact" class="nav-cta">Hire Me</a>
+    </nav>
+    <button class="menu-toggle" onclick="document.getElementById('mobMenu').classList.add('open')">
+      <i class="bi bi-list"></i>
+    </button>
+  </header>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span>Gallery</span>
+    </div>
+    <div class="page-hero-inner">
+      <h1 class="page-hero-title">Full<br><em>Gallery</em></h1>
+      <div class="page-hero-count">05</div>
+    </div>
+  </div>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Browse by Category</div>
+        <h2 class="section-title">Every <em>Frame</em><br>Tells a Story</h2>
+      </div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="cat-filter-bar reveal">
+      <button class="cat-filter-btn active" onclick="filterCats(this,'all')">All</button>
+      <button class="cat-filter-btn" onclick="filterCats(this,'portrait')">Portrait</button>
+      <button class="cat-filter-btn" onclick="filterCats(this,'landscape')">Landscape</button>
+      <button class="cat-filter-btn" onclick="filterCats(this,'corporate')">Corporate Events</button>
+      <button class="cat-filter-btn" onclick="filterCats(this,'street')">Street Photography</button>
+      <button class="cat-filter-btn" onclick="filterCats(this,'couple')">Couple Shoots</button>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="cat-grid reveal" id="catGrid">
+
+      <div class="cat-card" data-cat="portrait" onclick="openAlbum('portrait')">
+        <div class="cat-card-img"><img src="assets/img/gallery/gallery-1.jpg" alt="Portrait"></div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-person"></i></div>
+          <h3 class="cat-card-title">Portrait</h3>
+          <p class="cat-card-count">6 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="landscape" onclick="openAlbum('landscape')">
+        <div class="cat-card-img"><img src="assets/img/gallery/gallery-2.jpg" alt="Landscape"></div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-image"></i></div>
+          <h3 class="cat-card-title">Landscape</h3>
+          <p class="cat-card-count">6 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="corporate" onclick="openAlbum('corporate')">
+        <div class="cat-card-img"><img src="assets/img/gallery/gallery-3.jpg" alt="Corporate Events"></div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-briefcase"></i></div>
+          <h3 class="cat-card-title">Corporate Events</h3>
+          <p class="cat-card-count">6 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="street" onclick="openAlbum('street')">
+        <div class="cat-card-img"><img src="assets/img/gallery/gallery-4.jpg" alt="Street Photography"></div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-signpost-2"></i></div>
+          <h3 class="cat-card-title">Street Photography</h3>
+          <p class="cat-card-count">6 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" data-cat="couple" onclick="openAlbum('couple')">
+        <div class="cat-card-img"><img src="assets/img/gallery/gallery-5.jpg" alt="Couple Shoots"></div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-heart"></i></div>
+          <h3 class="cat-card-title">Couple Shoots</h3>
+          <p class="cat-card-count">6 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+    </div><!-- /cat-grid -->
+
+    <!-- Album Modal -->
+    <div class="album-modal" id="albumModal">
+      <div class="album-modal-inner">
+        <div class="album-modal-header">
+          <div>
+            <div class="album-modal-tag">Gallery</div>
+            <h2 class="album-modal-title" id="albumTitle"></h2>
+          </div>
+          <button class="album-close" onclick="closeAlbum()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="album-grid" id="albumGrid"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <div class="cta-eyebrow">Commission a Project</div>
+    <h2 class="cta-title">Let's Create<br>Something <em>Together</em></h2>
+    <p class="cta-sub">Have a project in mind? Looking to book a portrait session, cover your event, or capture a special moment? Let's make it unforgettable.</p>
+    <a href="index.html#contact" class="btn-gold">Get In Touch</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Muthu<span>kumaran</span></div>
+    <div class="footer-copy">© 2025 Muthukumaran. All rights reserved.<br>
+      <span style="font-size:0.6rem;opacity:0.6;">Chennai, India · kumarkannagi2000@gmail.com</span>
+    </div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/surreal7mmlens" target="_blank"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a>
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <script>
+    // CURSOR
+    const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+    (function tick() {
+      cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+      rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(tick);
+    })();
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.transform='translate(-50%,-50%) scale(1.8)'; ring.style.borderColor='rgba(201,169,110,0.8)'; });
+      el.addEventListener('mouseleave', () => { ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.borderColor='rgba(201,169,110,0.5)'; });
+    });
+
+    // SCROLL REVEAL
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // GLIGHTBOX
+    GLightbox({ touchNavigation: true, loop: true, autoplayVideos: true });
+
+    // ALBUM DATA — replace src paths with your real photos
+    const albums = {
+      portrait: {
+        label: 'Portrait <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/gallery-1.jpg', title: 'Sunlit Portrait' },
+          { src: 'assets/img/gallery/gallery-2.jpg', title: 'Studio Classic' },
+          { src: 'assets/img/gallery/gallery-3.jpg', title: 'Outdoor Session' },
+          { src: 'assets/img/gallery/gallery-4.jpg', title: 'Golden Hour' },
+          { src: 'assets/img/gallery/gallery-5.jpg', title: 'Candid Character' },
+          { src: 'assets/img/gallery/gallery-6.jpg', title: 'Editorial Look' },
+        ]
+      },
+      landscape: {
+        label: 'Landscape <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/gallery-2.jpg', title: 'Tamil Nadu Sunrise' },
+          { src: 'assets/img/gallery/gallery-3.jpg', title: 'Western Ghats' },
+          { src: 'assets/img/gallery/gallery-4.jpg', title: 'Marina Horizon' },
+          { src: 'assets/img/gallery/gallery-5.jpg', title: 'Monsoon Hills' },
+          { src: 'assets/img/gallery/gallery-6.jpg', title: 'Coastal Light' },
+          { src: 'assets/img/gallery/gallery-7.jpg', title: 'Paddy Fields' },
+        ]
+      },
+      corporate: {
+        label: 'Corporate <em>Events</em>',
+        photos: [
+          { src: 'assets/img/gallery/gallery-3.jpg', title: 'Chennai Trade Centre Summit' },
+          { src: 'assets/img/gallery/gallery-4.jpg', title: 'Keynote Session' },
+          { src: 'assets/img/gallery/gallery-5.jpg', title: 'Award Ceremony' },
+          { src: 'assets/img/gallery/gallery-6.jpg', title: 'Team Candids' },
+          { src: 'assets/img/gallery/gallery-7.jpg', title: 'Product Launch' },
+          { src: 'assets/img/gallery/gallery-8-2.jpg', title: 'Panel Discussion' },
+        ]
+      },
+      street: {
+        label: 'Street <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/gallery-4.jpg', title: 'Chennai Streets' },
+          { src: 'assets/img/gallery/gallery-5.jpg', title: 'Market Life' },
+          { src: 'assets/img/gallery/gallery-6.jpg', title: 'Evening Light' },
+          { src: 'assets/img/gallery/gallery-7.jpg', title: 'The Vendor' },
+          { src: 'assets/img/gallery/gallery-8-2.jpg', title: 'Faces of Chennai' },
+          { src: 'assets/img/gallery/gallery-1.jpg', title: 'Marina at Sunrise' },
+        ]
+      },
+      couple: {
+        label: 'Couple <em>Shoots</em>',
+        photos: [
+          { src: 'assets/img/gallery/gallery-5.jpg', title: 'Beach at Dusk' },
+          { src: 'assets/img/gallery/gallery-6.jpg', title: 'Garden Romance' },
+          { src: 'assets/img/gallery/gallery-7.jpg', title: 'City Lights' },
+          { src: 'assets/img/gallery/gallery-8-2.jpg', title: 'Candid Laughter' },
+          { src: 'assets/img/gallery/gallery-1.jpg', title: 'Golden Embrace' },
+          { src: 'assets/img/gallery/gallery-2.jpg', title: 'First Look' },
+        ]
+      }
+    };
+
+    // FILTER
+    function filterCats(btn, category) {
+      document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#catGrid .cat-card').forEach(card => {
+        const match = category === 'all' || card.dataset.cat === category;
+        if (match) {
+          card.style.display = '';
+          requestAnimationFrame(() => { card.style.opacity='1'; card.style.transform='scale(1)'; });
+        } else {
+          card.style.opacity='0'; card.style.transform='scale(0.95)';
+          setTimeout(() => { card.style.display='none'; }, 300);
+        }
+      });
+    }
+
+    // OPEN ALBUM
+    function openAlbum(category) {
+      const data = albums[category];
+      if (!data) return;
+      document.getElementById('albumTitle').innerHTML = data.label;
+      const grid = document.getElementById('albumGrid');
+      grid.innerHTML = data.photos.length === 0
+        ? `<div class="album-empty"><i class="bi bi-camera"></i><p>Photos coming soon</p></div>`
+        : data.photos.map(p => `
+            <div class="album-photo">
+              <img src="${p.src}" alt="${p.title}" loading="lazy">
+              <div class="album-photo-overlay">
+                <a href="${p.src}" class="album-photo-expand glightbox-album" data-gallery="album-${category}" title="${p.title}">
+                  <i class="bi bi-arrows-angle-expand"></i>
+                </a>
+              </div>
+            </div>`).join('');
+      GLightbox({ selector: '.glightbox-album', touchNavigation: true, loop: true });
+      const modal = document.getElementById('albumModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      modal.scrollTop = 0;
+    }
+
+    function closeAlbum() {
+      document.getElementById('albumModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('albumModal').addEventListener('click', function(e) {
+      if (e.target === this) closeAlbum();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAlbum(); });
+  </script>
+
+</body>
+</html>

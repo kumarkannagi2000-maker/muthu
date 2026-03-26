@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Muthukumaran — Visual Storyteller</title>
+  <meta name="description" content="Muthukumaran — Professional Photographer capturing portraits, landscapes, weddings and more.">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --ash: #111111;
+      --smoke: #1a1a1a;
+      --mist: #2a2a2a;
+      --silver: #888888;
+      --pearl: #cccccc;
+      --ivory: #f0ede8;
+      --gold: #c9a96e;
+      --gold-light: #e8c98a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 28px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+      transition: background 0.4s;
+    }
+    header.scrolled {
+      background: rgba(10,10,10,0.98);
+      padding: 18px 60px;
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--ivory);
+      text-decoration: none;
+    }
+    .logo span { color: var(--gold); }
+
+    nav { display: flex; gap: 40px; }
+    nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pearl);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+    nav a:hover { color: var(--gold); }
+    nav a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 8px 24px;
+      font-size: 0.68rem !important;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--ink) !important;
+    }
+    .nav-cta::after { display: none !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      height: 100vh;
+      min-height: 600px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      padding: 0 60px 80px;
+      isolation: isolate;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.2) 100%),
+        linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 50%);
+      z-index: 1;
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 3px;
+      z-index: 0;
+    }
+    .hero-grid-item {
+      background: var(--smoke);
+      overflow: hidden;
+    }
+    .hero-grid-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+      transform: scale(1.05);
+      animation: slowZoom 12s ease-in-out infinite alternate;
+    }
+    .hero-grid-item:nth-child(2) img { animation-delay: -3s; }
+    .hero-grid-item:nth-child(3) img { animation-delay: -6s; }
+    .hero-grid-item:nth-child(4) img { animation-delay: -9s; }
+
+    @keyframes slowZoom {
+      from { transform: scale(1.05); }
+      to { transform: scale(1.15); }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-tagline {
+      font-size: 1.05rem;
+      font-weight: 200;
+      color: var(--pearl);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 20px; align-items: center;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .btn-primary-gold {
+      background: var(--gold);
+      color: var(--ink);
+      padding: 14px 36px;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    .btn-primary-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      color: var(--pearl);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s;
+    }
+    .btn-ghost:hover { color: var(--gold); }
+    .btn-ghost i { font-size: 1.2rem; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px; right: 60px;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+      pointer-events: none;
+    }
+    .hero-scroll span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--silver);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--silver), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      position: relative;
+      z-index: 10;
+      background: var(--ash);
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+      padding: 36px 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 20px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+      white-space: nowrap;
+    }
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-top: 8px;
+      display: block;
+      white-space: nowrap;
+    }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-header {
+      padding: 100px 60px 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .section-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 16px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .section-link {
+      color: var(--silver);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+      transition: color 0.3s;
+      padding-bottom: 4px;
+    }
+    .section-link:hover { color: var(--gold); }
+    .section-link i { transition: transform 0.3s; }
+    .section-link:hover i { transform: translateX(5px); }
+
+    /* ─── GALLERY GRID ─── */
+    .gallery-masonry {
+      padding: 0 60px 100px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 6px;
+    }
+
+    .g-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--smoke);
+    }
+    .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s;
+      filter: brightness(0.85) saturate(0.8);
+    }
+    .g-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1) saturate(1);
+    }
+
+    .g-item-1 { grid-column: 1 / 6; grid-row: 1; aspect-ratio: 4/3; }
+    .g-item-2 { grid-column: 6 / 9; grid-row: 1; aspect-ratio: 3/4; }
+    .g-item-3 { grid-column: 9 / 13; grid-row: 1; aspect-ratio: 4/3; }
+    .g-item-4 { grid-column: 1 / 4; grid-row: 2; aspect-ratio: 3/4; }
+    .g-item-5 { grid-column: 4 / 9; grid-row: 2; aspect-ratio: 16/9; }
+    .g-item-6 { grid-column: 9 / 13; grid-row: 2; aspect-ratio: 3/4; }
+    .g-item-7 { grid-column: 1 / 5; grid-row: 3; aspect-ratio: 4/3; }
+    .g-item-8 { grid-column: 5 / 13; grid-row: 3; aspect-ratio: 16/7; }
+
+    .g-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; align-items: flex-end;
+      padding: 24px;
+    }
+    .g-item:hover .g-overlay { opacity: 1; }
+
+    .g-overlay-content { display: flex; align-items: center; gap: 14px; }
+
+    .g-expand {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .g-expand:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+    .g-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pearl);
+    }
+
+    /* ─── ABOUT SECTION ─── */
+    #about {
+      background: var(--ash);
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-image-wrap {
+      position: relative;
+    }
+    .about-image-wrap img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: grayscale(20%);
+    }
+    .about-image-wrap::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: -20px;
+      right: 20px; bottom: 20px;
+      border: 1px solid rgba(201,169,110,0.3);
+      z-index: -1;
+    }
+    .about-image-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; right: -20px;
+      width: 200px; height: 200px;
+      background: rgba(201,169,110,0.05);
+      z-index: -1;
+    }
+
+    .about-content .section-tag { margin-bottom: 16px; }
+    .about-content .section-title { margin-bottom: 30px; }
+
+    .about-bio {
+      color: var(--pearl);
+      line-height: 1.85;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .about-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 36px 0;
+      padding: 28px;
+      background: var(--smoke);
+      border-left: 2px solid var(--gold);
+    }
+    .detail-item { }
+    .detail-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .detail-value {
+      font-size: 0.9rem;
+      color: var(--pearl);
+    }
+
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 28px;
+    }
+    .skill-tag {
+      border: 1px solid rgba(201,169,110,0.3);
+      color: var(--silver);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      transition: all 0.3s;
+    }
+    .skill-tag:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,169,110,0.08);
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 0 60px 100px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    /* Last card (7th) spans to center itself */
+    .service-card:last-child {
+      grid-column: 2 / 3;
+    }
+    .service-card {
+      background: var(--ash);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.5s;
+    }
+    .service-card:hover { background: var(--smoke); }
+    .service-card:hover::before { width: 100%; }
+
+    .service-icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: block;
+    }
+    .service-num {
+      position: absolute;
+      top: 36px; right: 36px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.06);
+      line-height: 1;
+    }
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--silver);
+      line-height: 1.8;
+    }
+    .service-price {
+      margin-top: 28px;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .service-price::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--gold);
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    #testimonials {
+      background: var(--ash);
+      padding: 100px 60px;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .testimonial-card {
+      background: var(--smoke);
+      padding: 40px;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      position: relative;
+    }
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      color: rgba(201,169,110,0.15);
+      line-height: 0.7;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .testimonial-text {
+      font-size: 0.92rem;
+      color: var(--pearl);
+      line-height: 1.85;
+      font-style: italic;
+      margin-bottom: 28px;
+    }
+    .testimonial-author {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .testimonial-author img {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: grayscale(30%);
+    }
+    .author-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ivory);
+    }
+    .author-role {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+    .stars {
+      margin-bottom: 20px;
+      color: var(--gold);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-info .section-tag { margin-bottom: 16px; }
+    .contact-info .section-title { margin-bottom: 30px; }
+
+    .contact-tagline {
+      font-size: 1rem;
+      color: var(--silver);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .contact-details { display: flex; flex-direction: column; gap: 24px; }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 20px;
+    }
+    .contact-detail-icon {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .contact-detail-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .contact-detail-value {
+      font-size: 0.92rem;
+      color: var(--pearl);
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+
+    .form-group { position: relative; }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: var(--smoke);
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 16px 0;
+      color: var(--ivory);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-bottom-color: var(--gold);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--silver);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    .form-group textarea { resize: none; height: 120px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .form-submit {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: 16px 40px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all 0.3s;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+    .form-submit:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ash);
+      border-top: 1px solid rgba(201,169,110,0.15);
+      padding: 48px 60px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--ivory);
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy {
+      font-size: 0.68rem;
+      color: var(--silver);
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+    .footer-socials {
+      display: flex; gap: 16px; justify-content: flex-end;
+    }
+    .footer-socials a {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--silver);
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+    }
+    .footer-socials a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+
+    /* ─── MOBILE MENU ─── */
+    .mob-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.98);
+      z-index: 2000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mob-menu.open { display: flex; }
+    .mob-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--ivory);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+    .mob-menu a:hover { color: var(--gold); }
+    .mob-close {
+      position: absolute;
+      top: 28px; right: 28px;
+      background: none; border: none;
+      color: var(--silver); font-size: 1.6rem;
+      cursor: none; transition: color 0.3s;
+    }
+    .mob-close:hover { color: var(--gold); }
+    /* ─── MOBILE NAV ─── */
+    .menu-toggle {
+      display: none;
+      background: none; border: none;
+      color: var(--ivory); font-size: 1.4rem;
+      cursor: none;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── CATEGORY CARDS GRID ─── */
+    .cat-grid {
+      padding: 0 60px 100px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .cat-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: none;
+      background: var(--smoke);
+    }
+    .cat-card-img {
+      position: absolute; inset: 0;
+    }
+    .cat-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+      filter: brightness(0.55) saturate(0.7);
+    }
+    .cat-card:hover .cat-card-img img {
+      transform: scale(1.08);
+      filter: brightness(0.35) saturate(0.5);
+    }
+    .cat-card-overlay {
+      position: absolute; inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      text-align: center;
+      z-index: 2;
+    }
+    .cat-card-icon {
+      width: 54px; height: 54px;
+      border: 1px solid rgba(201,169,110,0.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      transition: all 0.4s;
+      background: rgba(201,169,110,0.08);
+    }
+    .cat-card:hover .cat-card-icon {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+    .cat-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--ivory);
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+    .cat-card-count {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .cat-card-btn {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pearl);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+      border-bottom: 1px solid rgba(201,169,110,0.4);
+      padding-bottom: 4px;
+    }
+    .cat-card:hover .cat-card-btn {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ─── ALBUM MODAL ─── */
+    .album-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(10,10,10,0.97);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      overflow-y: auto;
+    }
+    .album-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .album-modal-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+    }
+    .album-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+    }
+    .album-modal-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .album-modal-tag::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--gold);
+    }
+    .album-modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .album-modal-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .album-close {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--silver);
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: none;
+      font-size: 1rem;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .album-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .album-photo {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--smoke);
+      cursor: none;
+    }
+    .album-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s;
+      filter: brightness(0.9) saturate(0.85);
+    }
+    .album-photo:hover img {
+      transform: scale(1.06);
+      filter: brightness(1) saturate(1);
+    }
+    .album-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; align-items: flex-end; padding: 18px;
+    }
+    .album-photo:hover .album-photo-overlay { opacity: 1; }
+    .album-photo-expand {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+    }
+    .album-photo-expand:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+    .album-empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 0;
+      color: var(--silver);
+    }
+    .album-empty i { font-size: 3rem; color: var(--gold); opacity: 0.3; display: block; margin-bottom: 16px; }
+    .album-empty p { font-size: 0.85rem; letter-spacing: 0.1em; }
+
+    @media (max-width: 1100px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); padding-left: 36px; padding-right: 36px; }
+    }
+    @media (max-width: 768px) {
+      .cat-grid { grid-template-columns: repeat(2, 1fr); padding: 0 20px 60px; }
+      .album-modal-inner { padding: 40px 20px 60px; }
+      .album-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      header { padding: 24px 36px; }
+      header.scrolled { padding: 16px 36px; }
+      #hero { padding: 0 36px 60px; }
+      .stats-bar { padding: 32px 24px; }
+      .stat-item { padding: 0 10px; }
+      .gallery-masonry, .section-header,
+      #about, #services, #testimonials, #contact { padding-left: 36px; padding-right: 36px; }
+      footer { padding: 36px; }
+      .hero-name { font-size: clamp(2.8rem, 6vw, 5rem); }
+    }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .menu-toggle { display: block; }
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 28px 20px;
+        gap: 1px;
+        background: rgba(255,255,255,0.06);
+      }
+      .stat-item {
+        padding: 20px 16px;
+        border-right: none;
+        background: var(--ash);
+      }
+      .gallery-masonry {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 20px 60px;
+      }
+      .g-item-1, .g-item-2, .g-item-3, .g-item-4,
+      .g-item-5, .g-item-6, .g-item-7, .g-item-8 {
+        grid-column: auto; grid-row: auto; aspect-ratio: 4/3;
+      }
+      #about { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      #contact { grid-template-columns: 1fr; gap: 48px; }
+      footer { grid-template-columns: 1fr; text-align: center; }
+      .footer-socials { justify-content: center; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+
+    /* ─── CONTACT FORM SPINNER ─── */
+    .cf-spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(201,169,110,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #cf-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Menu -->
+  <div class="mob-menu" id="mobMenu">
+    <button class="mob-close" onclick="document.getElementById('mobMenu').classList.remove('open')">✕</button>
+    <a href="index.html">Home</a>
+    <a href="#gallery" onclick="document.getElementById('mobMenu').classList.remove('open')">Work</a>
+    <a href="about.html">About</a>
+    <a href="#services" onclick="document.getElementById('mobMenu').classList.remove('open')">Services</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Header -->
+  <header id="mainHeader">
+    <a href="index.html" class="logo">Muthu<span>.</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#gallery">Work</a>
+      <a href="about.html">About</a>
+      <a href="#services">Services</a>
+      <a href="contact.html" class="nav-cta">Hire Me</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" onclick="document.getElementById('mobMenu').classList.add('open')"><i class="bi bi-list"></i></button>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid">
+      <div class="hero-grid-item"><img src="assets/img/gallery/wed3.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/pro1.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/pro5.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/wild3.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/yoga10.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/spo9.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/co4.jpeg" alt=""></div>
+      <div class="hero-grid-item"><img src="assets/img/gallery/yoga4.jpeg" alt=""></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Visual Storyteller</div>
+      <h1 class="hero-name">Muthu<em>kumaran</em></h1>
+      <p class="hero-tagline">I craft images that breathe — capturing raw emotion, fleeting light, and the stories that words can't hold.</p>
+      <div class="hero-actions">
+        <a href="#gallery" class="btn-primary-gold">View My Work</a>
+        <a href="#contact" class="btn-ghost"><i class="bi bi-arrow-right-circle"></i> Book a Session</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar reveal">
+    <div class="stat-item"><span class="stat-number">5+</span><span class="stat-label">Years Experience</span></div>
+    <div class="stat-item"><span class="stat-number">100+</span><span class="stat-label">Projects Delivered</span></div>
+    <div class="stat-item"><span class="stat-number">35+</span><span class="stat-label">Happy Clients</span></div>
+    
+  </div>
+
+  <!-- Gallery -->
+  <section id="gallery" style="scroll-margin-top: 80px;">
+
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">Selected Work</div>
+        <h2 class="section-title">A Window Into<br><em>My World</em></h2>
+      </div>
+      <a href="gallery.html" class="section-link">View Full Gallery <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="cat-grid reveal">
+
+      <div class="cat-card" onclick="openAlbum('wedding')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/wed3.jpeg" alt="Wedding">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-heart"></i></div>
+          <h3 class="cat-card-title">Wedding</h3>
+          <p class="cat-card-count">3 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('product')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/pro1.jpeg" alt="Product">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-box-seam"></i></div>
+          <h3 class="cat-card-title">Product</h3>
+          <p class="cat-card-count">1 Photo</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('food')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/pro5.jpeg" alt="Food">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-egg-fried"></i></div>
+          <h3 class="cat-card-title">Food</h3>
+          <p class="cat-card-count">3 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('wildlife')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/wild3.jpeg" alt="Wildlife">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-tree"></i></div>
+          <h3 class="cat-card-title">Wildlife</h3>
+          <p class="cat-card-count">3 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('candid')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/candid.jpeg" alt="Candid">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-signpost-2"></i></div>
+          <h3 class="cat-card-title">Candid</h3>
+          <p class="cat-card-count">2 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('sports')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/spo9.jpeg" alt="Sports">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-trophy"></i></div>
+          <h3 class="cat-card-title">Sports</h3>
+          <p class="cat-card-count">17 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <div class="cat-card" onclick="openAlbum('corporate')">
+        <div class="cat-card-img">
+          <img src="assets/img/gallery/co4.jpeg" alt="Corporate">
+        </div>
+        <div class="cat-card-overlay">
+          <div class="cat-card-icon"><i class="bi bi-briefcase"></i></div>
+          <h3 class="cat-card-title">Corporate Events</h3>
+          <p class="cat-card-count">7 Photos</p>
+          <span class="cat-card-btn">View Album <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </div>
+
+    </div><!-- /cat-grid -->
+
+    <!-- Album Lightbox Modal -->
+    <div class="album-modal" id="albumModal">
+      <div class="album-modal-inner">
+        <div class="album-modal-header">
+          <div>
+            <div class="album-modal-tag">Portfolio</div>
+            <h2 class="album-modal-title" id="albumTitle">Wedding</h2>
+          </div>
+          <button class="album-close" onclick="closeAlbum()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="album-grid" id="albumGrid"></div>
+      </div>
+    </div>
+
+  </section><!-- /Gallery -->
+
+  <!-- About -->
+  <section id="about" style="scroll-margin-top: 80px;">
+    <div class="about-image-wrap reveal">
+      <img src="assets/img/profile-img.jpg" alt="Muthukumaran">
+    </div>
+    <div class="about-content reveal reveal-delay-2">
+      <div class="section-tag">About Me</div>
+      <h2 class="section-title">More Than a<br><em>Photographer</em></h2>
+      <p class="about-bio">I'm Muthukumaran — a visual storyteller with a deep passion for light, shadow, and the decisive moment. With over 8 years behind the lens, I've learned that the best photographs aren't taken, they're felt.</p>
+      <p class="about-bio">Every frame I capture is a conversation between the subject and the world around them. Whether it's a portrait that reveals the soul, a landscape that holds your breath, or a wedding that freezes time — I bring intention to every shot.</p>
+      <div class="about-details">
+        <div class="detail-item">
+          <div class="detail-label">Based In</div>
+          <div class="detail-value">Chennai, India</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Availability</div>
+          <div class="detail-value">Open for Projects</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">muthu2000@gmail.com</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value">+91 99436 70421</div>
+        </div>
+      </div>
+      <div class="skills-list">
+        <span class="skill-tag">Wedding</span>
+        <span class="skill-tag">Product</span>
+        <span class="skill-tag">Food</span>
+        <span class="skill-tag">Wildlife</span>
+        <span class="skill-tag">Candid</span>
+        <span class="skill-tag">Sports</span>
+        <span class="skill-tag">Corporate Events</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" style="scroll-margin-top: 80px;">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-tag">What I Offer</div>
+        <h2 class="section-title">Services &<br><em>Packages</em></h2>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">01</span>
+        <i class="bi bi-heart service-icon"></i>
+        <h3 class="service-title">Wedding Photography</h3>
+        <p class="service-desc">Your most precious day, preserved forever. From the first look to the final dance — candid emotion, timeless compositions, and a storytelling approach that truly honours your love story.</p>
+        <div class="service-price">Starting from ₹40,000</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">02</span>
+        <i class="bi bi-box-seam service-icon"></i>
+        <h3 class="service-title">Product Photography</h3>
+        <p class="service-desc">Clean, compelling, and conversion-ready. I photograph products with precision lighting and styled compositions that make your brand stand out on every platform.</p>
+        <div class="service-price">Starting from ₹5,000</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <span class="service-num">03</span>
+        <i class="bi bi-egg-fried service-icon"></i>
+        <h3 class="service-title">Food Photography</h3>
+        <p class="service-desc">Making every dish irresistible on camera. From restaurant menus to brand campaigns, I capture the texture, colour, and warmth of food that makes people crave the real thing.</p>
+        <div class="service-price">Starting from ₹5,000</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">04</span>
+        <i class="bi bi-tree service-icon"></i>
+        <h3 class="service-title">Wildlife Photography</h3>
+        <p class="service-desc">Nature at its most raw and magnificent. I venture into the wild with patience and skill to capture wildlife in their natural habitat — powerful, intimate, and unforgettable.</p>
+        <div class="service-price">Get in Touch for Pricing</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">05</span>
+        <i class="bi bi-signpost-2 service-icon"></i>
+        <h3 class="service-title">Street Photography</h3>
+        <p class="service-desc">The pulse of the city, the poetry of everyday life. I roam Chennai's streets with a keen eye for the fleeting, the candid, and the beautifully unexpected.</p>
+        <div class="service-price">Get in Touch for Pricing</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <span class="service-num">06</span>
+        <i class="bi bi-trophy service-icon"></i>
+        <h3 class="service-title">Sports Photography</h3>
+        <p class="service-desc">Speed, grit, and glory — frozen in a single frame. I specialise in capturing the decisive moments of athletic performance with precision timing and dynamic composition.</p>
+        <div class="service-price">Starting from ₹5,000</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">07</span>
+        <i class="bi bi-briefcase service-icon"></i>
+        <h3 class="service-title">Corporate Events</h3>
+        <p class="service-desc">Professional coverage for conferences, product launches, team events, and brand activations. Polished imagery that reflects the quality and ambition of your organisation.</p>
+        <div class="service-price">Starting from ₹5,000</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="section-header reveal" style="padding: 0 0 0 0;">
+      <div>
+        <div class="section-tag">Client Love</div>
+        <h2 class="section-title">What People<br><em>Say</em></h2>
+      </div>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Muthu captured every moment of our Tamil wedding with such depth and feeling. From the nalangu to the muhurtham, each photo felt alive. Our families in Madurai were in tears seeing the album — truly priceless work.</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-1.jpg" alt="Karthik & Priya">
+          <div>
+            <div class="author-name">Karthik & Priya Rajan</div>
+            <div class="author-role">Wedding Client · Tambaram, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">We hired Muthu for our product shoot for our new saree collection on Meenambakkam Road. The lighting, the textures, the colours — everything looked premium. Our online sales doubled after we updated the website with his photos.</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-2.jpg" alt="Sangeetha Lakshmi">
+          <div>
+            <div class="author-name">Sangeetha Lakshmi</div>
+            <div class="author-role">Business Owner · T. Nagar, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-3">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">As a restaurant owner in Adyar, I needed photos that made my biriyani and Chettinad dishes look irresistible. Muthu understood exactly what I wanted. Customers now come in saying they saw the photos on Zomato and had to visit!</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-3.jpg" alt="Murugan Selvam">
+          <div>
+            <div class="author-name">Murugan Selvam</div>
+            <div class="author-role">Restaurant Owner · Adyar, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">I took Muthu along on a wildlife trip to Mudumalai and Anamalai Tiger Reserve. The patience he had waiting for the perfect shot of a leopard at dusk — extraordinary. Those images are now displayed in my home and I get compliments every single day.</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-4.jpg" alt="Dr. Anand Krishnamurthy">
+          <div>
+            <div class="author-name">Dr. Anand Krishnamurthy</div>
+            <div class="author-role">Wildlife Enthusiast · Velachery, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Muthu covered our inter-school cricket tournament at the MA Chidambaram Stadium grounds. He caught every six, every wicket, every celebration. The kids and parents were absolutely thrilled. Will definitely book him again for our annual sports day.</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-5.jpg" alt="Coach Venkatesh">
+          <div>
+            <div class="author-name">Coach Venkatesh Kumar</div>
+            <div class="author-role">Sports Academy · Mylapore, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-3">
+        <span class="quote-mark">"</span>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">We engaged Muthu for our annual corporate summit at the Chennai Trade Centre. He was professional, unobtrusive, and the photos came out beautifully — keynote shots, team candids, award ceremonies. Our LinkedIn posts have never performed better.</p>
+        <div class="testimonial-author">
+          <img src="assets/img/testimonials/testimonials-1.jpg" alt="Deepa Subramaniam">
+          <div>
+            <div class="author-name">Deepa Subramaniam</div>
+            <div class="author-role">HR Director · Guindy, Chennai</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-info reveal">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-title">Let's Create<br><em>Together</em></h2>
+      <p class="contact-tagline">Have a project in mind? Looking for a collaborator or want to book a session? I'd love to hear from you. Let's make something unforgettable.</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="bi bi-geo-alt"></i></div>
+          <div>
+            <div class="contact-detail-label">Location</div>
+            <div class="contact-detail-value">No.2/6 Purushothaman Street, Chitlapakkam,<br>East Tambaram, Chennai – 600064</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="bi bi-telephone"></i></div>
+          <div>
+            <div class="contact-detail-label">Call Me</div>
+            <div class="contact-detail-value">+91 99436 70421</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="bi bi-envelope"></i></div>
+          <div>
+            <div class="contact-detail-label">Email</div>
+            <div class="contact-detail-value">muthu2000@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="bi bi-instagram"></i></div>
+          <div>
+            <div class="contact-detail-label">Instagram</div>
+            <div class="contact-detail-value"><a href="https://www.instagram.com/surreal7mmlens" target="_blank" style="color:var(--gold);text-decoration:none;">@surreal7mmlens</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group"><input type="text" id="cf-name" placeholder="Your Name" required></div>
+        <div class="form-group"><input type="email" id="cf-email" placeholder="Your Email" required></div>
+      </div>
+      <div class="form-group"><input type="tel" id="cf-phone" placeholder="Your Phone Number (optional)"></div>
+      <div class="form-group"><input type="text" id="cf-subject" placeholder="Subject / Project Type" required></div>
+      <div class="form-group"><textarea id="cf-message" placeholder="Tell me about your project..."></textarea></div>
+
+      <div id="cf-success" style="display:none;margin-top:16px;padding:20px 24px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.05);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <i class="bi bi-check-circle" style="color:#4ade80;font-size:1.2rem;"></i>
+          <div>
+            <div style="font-size:0.85rem;color:#4ade80;letter-spacing:0.05em;">WhatsApp Opened! ✓</div>
+            <div style="font-size:0.75rem;color:var(--silver);margin-top:4px;">Your message is pre-filled — just tap Send in WhatsApp!</div>
+          </div>
+        </div>
+      </div>
+      <div id="cf-error" style="display:none;margin-top:16px;padding:20px 24px;border:1px solid rgba(248,113,113,0.3);background:rgba(248,113,113,0.05);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <i class="bi bi-exclamation-circle" style="color:#f87171;font-size:1.2rem;"></i>
+          <div>
+            <div style="font-size:0.85rem;color:#f87171;letter-spacing:0.05em;">Something went wrong.</div>
+            <div style="font-size:0.75rem;color:var(--silver);margin-top:4px;">Please email directly at muthu2000@gmail.com or call +91 99436 70421.</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="form-submit" id="cf-submit" onclick="handleContactSubmit()">
+        Send via WhatsApp <i class="bi bi-whatsapp"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Muthu<span>kumaran</span></div>
+    <div class="footer-copy">© 2025 Muthukumaran. All rights reserved.<br><span style="font-size:0.6rem;opacity:0.6;">Chennai, India ·muthu2000@gmail.com</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/surreal7mmlens" target="_blank"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a>
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.8)'; ring.style.borderColor = 'rgba(201,169,110,0.8)'; });
+      el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.borderColor = 'rgba(201,169,110,0.5)'; });
+    });
+
+    // Header scroll
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+
+    // Glightbox
+    GLightbox({ touchNavigation: true, loop: true, autoplayVideos: true });
+
+
+    // ─── ALBUM DATA ───────────────────────────────────────
+    // Replace image paths with your actual photos per category.
+    // Each category maps to an array of { src, title } objects.
+    const albums = {
+      wedding: {
+        label: 'Wedding <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/wed3.jpeg', title: 'The First Look' },
+          { src: 'assets/img/gallery/wed1.jpeg', title: '' },
+          { src: 'assets/img/gallery/wed2.jpeg', title: '' },
+        ]
+      },
+      product: {
+        label: 'Product <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/pro1.jpeg', title: 'Sweets' },
+        
+         
+        ]
+      },
+      food: {
+        label: 'Food <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/pro5.jpeg', title: 'Chettinad Special' },
+          { src: 'assets/img/gallery/pro2.jpeg', title: '' },
+          { src: 'assets/img/gallery/pro3.jpeg', title: '' },
+       
+  
+        ]
+      },
+      wildlife: {
+        label: 'Wildlife <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/wild3.jpeg', title: 'Mudumalai Tiger Reserve' },
+          { src: 'assets/img/gallery/wild1.jpeg', title: '' },
+          { src: 'assets/img/gallery/wild2.jpeg', title: '' },
+        ]
+      },
+      candid: {
+        label: 'Candid <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/candid1.jpeg', title: '' },
+          { src: 'assets/img/gallery/candid2.jpeg', title: '' },
+         
+        ]
+      },
+      sports: {
+        label: 'Sports <em>Photography</em>',
+        photos: [
+          { src: 'assets/img/gallery/spo9.jpeg', title: 'F1 RACE' },
+          { src: 'assets/img/gallery/spo1.jpeg', title: "NO 34" },
+          { src: 'assets/img/gallery/spo2.jpeg', title: 'NO 12' },
+          { src: 'assets/img/gallery/spo4.jpeg', title: 'NO 14' },
+          { src: 'assets/img/gallery/spo6.jpeg', title: 'NO 36' },
+          { src: 'assets/img/gallery/spo7.jpeg', title: 'NO 45' },
+          { src: 'assets/img/gallery/spo8.jpeg', title: 'NO 7' },
+          { src: 'assets/img/gallery/spo9.jpeg', title: 'NO 44' },
+          { src: 'assets/img/gallery/yoga1.jpeg', title: 'Rakakapotasana' },
+          { src: 'assets/img/gallery/yoga2.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga3.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga4.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga5.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga6.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga7.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga8.jpeg', title: '' },
+          { src: 'assets/img/gallery/yoga9.jpeg', title: '' },
+
+
+        ]
+      },
+      corporate: {
+        label: 'Corporate <em>Events</em>',
+        photos: [
+          { src: 'assets/img/gallery/co4.jpeg', title: '' },
+          { src: 'assets/img/gallery/co1.jpeg', title: '' },
+          { src: 'assets/img/gallery/co2.jpeg', title: '' },
+          { src: 'assets/img/gallery/co3.jpeg', title: '' },
+          { src: 'assets/img/gallery/co5.jpeg', title: '' },
+          { src: 'assets/img/gallery/co6.jpeg', title: '' },
+          { src: 'assets/img/gallery/co7.jpeg', title: '' },
+        
+        ]
+      }
+    };
+
+    function openAlbum(category) {
+      const data   = albums[category];
+      if (!data) return;
+
+      // Set title
+      document.getElementById('albumTitle').innerHTML = data.label;
+
+      // Build photo grid
+      const grid = document.getElementById('albumGrid');
+      if (data.photos.length === 0) {
+        grid.innerHTML = `<div class="album-empty"><i class="bi bi-camera"></i><p>Photos coming soon</p></div>`;
+      } else {
+        grid.innerHTML = data.photos.map((p, i) => `
+          <div class="album-photo">
+            <img src="${p.src}" alt="${p.title}" loading="lazy">
+            <div class="album-photo-overlay">
+              <a href="${p.src}" class="album-photo-expand glightbox-album" data-gallery="album-${category}" title="${p.title}">
+                <i class="bi bi-arrows-angle-expand"></i>
+              </a>
+            </div>
+          </div>`).join('');
+
+        // Re-init glightbox for new images
+        GLightbox({ selector: '.glightbox-album', touchNavigation: true, loop: true });
+      }
+
+      // Open modal
+      const modal = document.getElementById('albumModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      modal.scrollTop = 0;
+    }
+
+    function closeAlbum() {
+      document.getElementById('albumModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close on backdrop click
+    document.getElementById('albumModal').addEventListener('click', function(e) {
+      if (e.target === this) closeAlbum();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeAlbum();
+    });
+
+    // Smooth scroll — same-page anchors only
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const t = document.querySelector(href);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+
+  <script>
+  function handleContactSubmit() {
+    const name    = document.getElementById('cf-name').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const phone   = document.getElementById('cf-phone').value.trim();
+    const subject = document.getElementById('cf-subject').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    if (!name || !email || !subject) {
+      alert('Please fill in your name, email, and subject.');
+      return;
+    }
+    const wa = 'Hello Muthukumaran! \u{1F44B}\n\nI found your portfolio and would like to enquire about your photography services.\n\n*Name:* ' + name + '\n*Email:* ' + email + '\n*Phone:* ' + (phone || 'Not provided') + '\n*Project Type:* ' + subject + '\n*Message:* ' + (message || 'No additional message.') + '\n\nLooking forward to hearing from you!';
+    window.open('https://wa.me/919943670421?text=' + encodeURIComponent(wa), '_blank');
+    document.getElementById('cf-success').style.display = 'block';
+    document.getElementById('cf-error').style.display   = 'none';
+    ['cf-name','cf-email','cf-phone','cf-subject','cf-message'].forEach(id => { document.getElementById(id).value = ''; });
+    setTimeout(() => { document.getElementById('cf-success').style.display = 'none'; }, 6000);
+  }
